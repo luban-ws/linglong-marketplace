@@ -11,6 +11,7 @@ The public demo is **React + Vite** in [`site/web`](site/web): `scripts/build_si
 - `site/web/` — **Vite + React** demo for GitHub Pages; build output goes to `_site/` via `scripts/build_site.py`.
 - `.claude-plugin/marketplace.json` — marketplace manifest (plugin `linglong-skills` bundles the skill paths).
 - `plugins/macos-swiftpm-cli-app/` — SwiftPM macOS executable → shell-assembled `.app`.
+- `plugins/macos-swiftpm-app-deployer/` — `pnpm run deploy`, `deploy.sh`, `/Applications` copy; not bare `pnpm deploy`.
 - `plugins/tauri-project/` — xuanwu Tauri + pnpm monorepo conventions (`apps/desktop`, `@xuanwu/ui`).
 - `plugins/rfc-management/` — generic RFC plus roadmap plus task-tracker alignment (paths discovered per repo).
 - `plugins/rfc-workflow/` — generic RFC analysis, approval gates, controlled implementation.

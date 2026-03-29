@@ -1,0 +1,17 @@
+{
+  "skill_name": "macos-swiftpm-app-deployer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "pnpm deploy fails with ERR_PNPM_NOTHING_TO_DEPLOY in our SwiftPM macOS monorepo. We have scripts/deploy.sh. What should the root package.json script be?",
+      "expected_output": "Use pnpm run deploy or pnpm --filter; avoid bare pnpm deploy; wire to bash scripts/deploy.sh or turbo deploy depending on repo.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Add turbo.json so deploy always runs after build for the desktop package and is not cached.",
+      "expected_output": "dependsOn build, cache false for deploy task.",
+      "files": []
+    }
+  ]
+}
