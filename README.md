@@ -2,6 +2,8 @@
 
 Claude Code skill marketplace: curated **skills** under `plugins/` for local or team use.
 
+**GitHub Pages** deploys automatically via [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) on every push to `main` (build → `upload-pages-artifact` → `deploy-pages`). **Settings → Pages → Source** must be **GitHub Actions** (see [Publishing with a custom workflow](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow)). Local preview: `npm run build:site` then open `_site/index.html`. Optional manual branch deploy: `npm run deploy:pages` (pushes `gh-pages` branch).
+
 ## Layout
 
 - `.claude-plugin/marketplace.json` — marketplace manifest (plugin `linglong-skills` bundles the skill paths).
@@ -39,3 +41,20 @@ npm install
 - **`npm run check`** — both.
 
 **Husky** runs `npm run check` on **pre-commit** and **pre-push**. If hooks are missing after clone, run `npm install` (runs the `prepare` script).
+
+## GitHub Pages setup (GitHub Actions)
+
+1. **Settings → Pages → Build and deployment → Source:** select **GitHub Actions** (once per repo).
+2. Push to `main` (or run workflow manually: **Actions → Deploy GitHub Pages → Run workflow**). The workflow builds `_site` and publishes with `actions/deploy-pages`.
+3. After the first successful run, the site URL appears on the workflow run summary and under **Settings → Pages** (for this org/repo it is typically `https://luban-ws.github.io/linglong-marketplace/`).
+
+| Command | Purpose |
+|--------|---------|
+| `npm run build:site` | Write `_site/` for local preview. |
+| `npm run deploy:pages` | Optional: push an orphan **`gh-pages`** branch (only if you prefer branch hosting instead of Actions). |
+
+Trigger with [GitHub CLI](https://cli.github.com/):
+
+```bash
+gh workflow run "Deploy GitHub Pages"
+```
