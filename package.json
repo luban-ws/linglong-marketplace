@@ -5,9 +5,10 @@
   "scripts": {
     "validate": "python3 -m scripts.validate_marketplace",
     "test": "python3 -m unittest discover -s tests -p 'test_*.py' -v",
+    "test:site": "npm run test --prefix site/web",
     "build:site": "python3 scripts/build_site.py --out _site",
     "deploy:pages": "bash scripts/deploy-gh-pages.sh",
-    "check": "npm run validate && npm test",
+    "check": "npm run validate && npm test && npm run test:site",
     "prepare": "husky"
   },
   "devDependencies": {

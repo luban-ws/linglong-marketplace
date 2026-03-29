@@ -1,4 +1,7 @@
 node_modules/
+site/web/node_modules/
+site/web/public/catalog.json
+site/web/public/manifest.json
 _site/
 __pycache__/
 *.py[cod]

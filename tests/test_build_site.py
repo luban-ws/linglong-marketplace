@@ -1,4 +1,4 @@
-"""Site builder smoke test."""
+"""Site builder smoke test (Python data + Vite React bundle)."""
 
 from __future__ import annotations
 
@@ -23,13 +23,23 @@ class TestBuildSite(unittest.TestCase):
             index = out / "index.html"
             self.assertTrue(index.is_file())
             html_text = index.read_text(encoding="utf-8")
-            self.assertIn("Skill catalog", html_text)
-            self.assertIn("manifest.json", html_text)
-            self.assertIn("macos-swiftpm-cli-app", html_text)
-            self.assertIn('id="skill-filter"', html_text)
-            self.assertIn("site.js", html_text)
-            self.assertTrue((out / "styles.css").is_file())
-            self.assertTrue((out / "site.js").is_file())
+            self.assertIn('id="root"', html_text)
+            self.assertIn('type="module"', html_text)
+
+            cat_path = out / "catalog.json"
+            self.assertTrue(cat_path.is_file())
+            catalog = json.loads(cat_path.read_text(encoding="utf-8"))
+            skill_paths = [s.get("path", "") for s in catalog.get("skills") or []]
+            self.assertTrue(
+                any("macos-swiftpm-cli-app" in p for p in skill_paths),
+                msg="expected macos-swiftpm-cli-app skill path in catalog.json",
+            )
+
+            js_assets = list(out.glob("assets/*.js"))
+            css_assets = list(out.glob("assets/*.css"))
+            self.assertTrue(js_assets, msg="Vite should emit hashed JS under assets/")
+            self.assertTrue(css_assets, msg="Vite should emit hashed CSS under assets/")
+
             self.assertTrue((out / ".nojekyll").is_file())
             mf = out / "manifest.json"
             self.assertTrue(mf.is_file())

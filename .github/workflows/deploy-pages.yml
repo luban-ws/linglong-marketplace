@@ -26,8 +26,17 @@ jobs:
         with:
           python-version: "3.12"
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: site/web/package-lock.json
+
       - name: Install Python deps
         run: pip install "PyYAML>=6.0.1"
+
+      - name: Install site (Vite + React) deps
+        run: npm ci --prefix site/web
 
       - name: Build site
         env:
