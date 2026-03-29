@@ -1,0 +1,24 @@
+{
+  "name": "linglong-marketplace",
+  "owner": {
+    "name": "Linglong"
+  },
+  "metadata": {
+    "description": "Personal Claude Code marketplace: Tauri monorepo skill, generic RFC and roadmap tracking, macOS SwiftPM .app packaging, and approval-gated RFC workflow.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "linglong-skills",
+      "description": "Tauri monorepo, generic RFC and roadmap/task tracking, macOS SwiftPM app bundles, RFC approval workflow",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./plugins/macos-swiftpm-cli-app",
+        "./plugins/tauri-project",
+        "./plugins/rfc-management",
+        "./plugins/rfc-workflow"
+      ]
+    }
+  ]
+}

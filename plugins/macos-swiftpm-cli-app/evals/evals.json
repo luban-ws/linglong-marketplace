@@ -1,0 +1,23 @@
+{
+  "skill_name": "macos-swiftpm-cli-app",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We have a SwiftPM macOS executable for a menu bar utility. CI runs `swift test` but we need a real `.app` for colleagues to double-click. There is no xcodeproj—only Package.swift and a release binary. Walk through how to assemble `Contents/MacOS`, Info.plist, optional AppIcon.icns, PkgInfo, xattr cleanup, and ad-hoc codesign in the right order.",
+      "expected_output": "Ordered bundle layout, build-app style steps, signing after xattr, pointer to embedded plist for Mach-O runs if relevant",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Our SwiftUI Mac accessory app (`LSUIElement`) shows the wrong icon in Finder; we only changed the source PNG. The turbo pipeline runs `swift build -c release` then a shell script packs the app. What are we probably missing and what should the pipeline enforce?",
+      "expected_output": "Regenerate AppIcon.icns, CFBundleIconFile alignment, tie icns step to release build",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Multi-monitor tiling bug: we place a new panel using `NSScreen` from `NSEvent.mouseLocation`, but users on the non-mouse display see the window open on the wrong screen. How should we choose the screen instead?",
+      "expected_output": "Prefer focused window's screen, mouse as fallback; tie to skill guidance",
+      "files": []
+    }
+  ]
+}

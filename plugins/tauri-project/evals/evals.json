@@ -1,0 +1,17 @@
+{
+  "skill_name": "tauri-project",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I just cloned xuanwu and npm install failed under apps/desktop. What should I run instead and from where?",
+      "expected_output": "pnpm install from monorepo root; only-allow pnpm; avoid npm in that tree.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Add dependency ansi-colors to the desktop Tauri app only—give the exact pnpm command.",
+      "expected_output": "pnpm add ansi-colors --filter desktop (or equivalent filter naming matching the workspace).",
+      "files": []
+    }
+  ]
+}

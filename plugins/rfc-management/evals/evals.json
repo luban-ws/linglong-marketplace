@@ -1,0 +1,23 @@
+{
+  "skill_name": "rfc-management",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "RFC 0012 is approved and merged. Our repo uses docs/rfc/ and ROADMAP.md plus TASK_TRACKING.md. What should change in the tree and tracking files?",
+      "expected_output": "Archive/move completed RFC per repo policy; update roadmap and tracker; clear stale In Progress; no contradictory status across files.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I want to propose a notification bridge. No CONTRIBUTING file—only a docs/rfc/README that says 0001 started the numbering. What do you do first?",
+      "expected_output": "Read docs/rfc/README; pick next id; follow required sections; register in roadmap/tracker if the project uses them; avoid inventing policy without user confirmation.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "We use design/ instead of docs/rfc/ and Linear instead of TASK_TRACKING.md. How do you apply this skill?",
+      "expected_output": "Map skill pattern to design/ and Linear; discover numbering and status rules; do not force ROADMAP.md paths if repo uses equivalents.",
+      "files": []
+    }
+  ]
+}

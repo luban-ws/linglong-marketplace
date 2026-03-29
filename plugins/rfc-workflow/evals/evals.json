@@ -1,0 +1,23 @@
+{
+  "skill_name": "rfc-workflow",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "User attached `docs/rfc/042-api-pagination.md` and says implement section 3.2. Parse dependencies, list files to touch, and wait for a numbered choice before editing any code.",
+      "expected_output": "Phase 1 style analysis, Phase 2 options, no file writes until user selects",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "We need a new RFC for adding webhook retries. Interview briefly, draft markdown using our NNN-feature-name convention, and do not save until the user approves the draft text.",
+      "expected_output": "Questions, draft RFC structure, explicit review gate before persisting",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Compare two approaches for caching in RFC 015 versus what the team shipped last week—analysis only, no implementation.",
+      "expected_output": "Structured comparison tied to RFC sections, analysis-only path, no repo edits",
+      "files": []
+    }
+  ]
+}

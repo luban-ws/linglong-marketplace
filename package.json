@@ -1,0 +1,14 @@
+{
+  "name": "linglong-marketplace",
+  "private": true,
+  "description": "Claude Code skill marketplace (plugins + validation)",
+  "scripts": {
+    "validate": "python3 -m scripts.validate_marketplace",
+    "test": "python3 -m unittest discover -s tests -p 'test_*.py' -v",
+    "check": "npm run validate && npm test",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}
