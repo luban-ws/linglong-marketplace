@@ -1,4 +1,4 @@
-# Build site/dist with pnpm + turbo and deploy to GitHub Pages.
+# Build apps/site/dist with pnpm + turbo and deploy to GitHub Pages.
 # Settings → Pages → Source: GitHub Actions (once per repo).
 name: Deploy GitHub Pages
 
@@ -43,14 +43,14 @@ jobs:
 
       - name: Verify catalog uses canonical repository
         run: |
-          test "$(node -p "require('./site/dist/catalog.json').repository")" = "systembugtj/linglong-marketplace"
-          ! grep -q luban-ws site/dist/catalog.json
+          test "$(node -p "require('./apps/site/dist/catalog.json').repository")" = "systembugtj/linglong-marketplace"
+          ! grep -q luban-ws apps/site/dist/catalog.json
 
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site/dist
+          path: apps/site/dist
 
   deploy:
     needs: build

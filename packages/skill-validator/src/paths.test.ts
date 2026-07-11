@@ -8,22 +8,23 @@ describe("plugin layout", () => {
   const base = linglongMarketplaceRoot();
   const pluginsDir = pluginsRoot(base);
 
-  it("discovers three plugin packages", () => {
+  it("discovers four plugin packages", () => {
     const roots = discoverPluginRoots(pluginsDir);
     const names = roots.map((p) => path.basename(p)).sort();
     expect(names).toEqual([
       "macos-swiftpm-plugin",
       "rfc-plugin",
       "tauri-plugin",
+      "vite-github-pages-plugin",
     ]);
   });
 
-  it("finds five skills total", () => {
+  it("finds six skills total", () => {
     const roots = discoverPluginRoots(pluginsDir);
     const total = roots.reduce(
       (n, r) => n + discoverSkillDirs(r).length,
       0,
     );
-    expect(total).toBe(5);
+    expect(total).toBe(6);
   });
 });

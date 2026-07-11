@@ -1,0 +1,23 @@
+{
+  "skill_name": "vite-github-pages",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Our Vite site on GitHub Pages at github.io/my-repo/ — clicking nav goes to github.io/packages instead of github.io/my-repo/packages. wsx-router has mode=hash. Fix?",
+      "expected_output": "wsx-router ignores hash mode; use Vite base /my-repo/ and sitePath() on all wsx-link/wsx-view; do not rely on hash routing.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "GH Pages build loads locales from /locales/en/common.json and 404s. We patched fetch globally. Better approach?",
+      "expected_output": "Remove fetch patch; set i18n loadPath with import.meta.env.BASE_URL; resolve base via GITHUB_PAGES env in vite.config.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Deep link refresh on GitHub Pages project site 404s. Current 404.html has a redirect script stripping the path.",
+      "expected_output": "Replace redirect with plain copy of index.html; History API SPA fallback; ensure vite base is /repo/.",
+      "files": []
+    }
+  ]
+}

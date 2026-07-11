@@ -1,16 +1,34 @@
 import {
+  useCallback,
   useEffect,
   useMemo,
   useState,
   type ReactNode,
 } from "react";
+import { HeroSearch } from "./components/HeroSearch";
+import { IconExternal } from "./components/icons";
 import { InstallTabs } from "./components/InstallTabs";
 import { LanguageToggle } from "./components/LanguageToggle";
+import { PluginGrid } from "./components/PluginGrid";
+import { StatBar } from "./components/StatBar";
 import { useCopyFeedback } from "./hooks/useCopyFeedback";
 import { useSiteCatalog } from "./hooks/useSiteCatalog";
 import { useLocale } from "./i18n/LocaleContext";
 import { filterSkillsByQuery } from "./lib/filterSkills";
 import { buildCurlInstallCommand } from "./lib/installCommands";
+import { derivePopularTags } from "./lib/popularTags";
+import {
+  HERO_SEARCH_INPUT_ID,
+  SECTION_INSTALL,
+  SECTION_OVERVIEW,
+  SECTION_PLUGINS,
+  SECTION_QUALITY,
+  SECTION_SKILLS,
+} from "./lib/sectionIds";
+
+function scrollToSection(id: string) {
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
 
 function Shell({
   children,
@@ -36,7 +54,7 @@ function Shell({
       >
         {live}
       </div>
-      <a className="skip-link" href="#skills">
+      <a className="skip-link" href={`#${SECTION_SKILLS}`}>
         {m.skipLink}
       </a>
       <div className="layout">
@@ -50,19 +68,19 @@ function Shell({
             <LanguageToggle className="lang-toggle--rail" />
           </div>
           <nav>
-            <a href="#overview" onClick={closeNav}>
-              {m.nav.overview}
-            </a>
-            <a href="#install" onClick={closeNav}>
-              {m.nav.install}
-            </a>
-            <a href="#plugins" onClick={closeNav}>
-              {m.nav.plugins}
-            </a>
-            <a href="#skills" onClick={closeNav}>
+            <a href={`#${SECTION_SKILLS}`} onClick={closeNav}>
               {m.nav.catalog}
             </a>
-            <a href="#quality" onClick={closeNav}>
+            <a href={`#${SECTION_PLUGINS}`} onClick={closeNav}>
+              {m.nav.plugins}
+            </a>
+            <a href={`#${SECTION_INSTALL}`} onClick={closeNav}>
+              {m.nav.install}
+            </a>
+            <a href={`#${SECTION_OVERVIEW}`} onClick={closeNav}>
+              {m.nav.overview}
+            </a>
+            <a href={`#${SECTION_QUALITY}`} onClick={closeNav}>
               {m.nav.quality}
             </a>
             {gitHubHref ? (
@@ -119,6 +137,16 @@ export default function App() {
     return filterSkillsByQuery(state.data.skills, filter);
   }, [state, filter]);
 
+  const popularTags = useMemo(() => {
+    if (state.status !== "ok") return [];
+    return derivePopularTags(state.data.plugins);
+  }, [state]);
+
+  const applyFilterAndScroll = useCallback((query: string) => {
+    setFilter(query);
+    scrollToSection(SECTION_SKILLS);
+  }, []);
+
   if (state.status === "loading") {
     return (
       <Shell live={live}>
@@ -150,6 +178,8 @@ export default function App() {
 
   const c = state.data;
   const curlInstall = buildCurlInstallCommand(c);
+  const resultLabel = m.skills.resultCount.replace("{count}", String(filtered.length));
+
   return (
     <Shell live={live} gitHubHref={c.repositoryUrl}>
       <header className="site">
@@ -158,8 +188,29 @@ export default function App() {
             <h1>{c.marketTitle}</h1>
             <span className="tag">{m.brandTag}</span>
           </div>
-          <p className="lede">{c.metaDescription}</p>
-          <p className="lede lede-tight">{m.hero.lede}</p>
+          <p className="lede">{m.hero.lede}</p>
+
+          <HeroSearch
+            id={HERO_SEARCH_INPUT_ID}
+            label={m.hero.searchLabel}
+            placeholder={m.hero.searchPlaceholder}
+            hint={m.hero.searchHint}
+            value={filter}
+            onChange={setFilter}
+            popularLabel={m.hero.popularLabel}
+            popularTags={popularTags}
+            onPopularSelect={applyFilterAndScroll}
+          />
+
+          <StatBar
+            pluginCount={c.plugins.length}
+            skillCount={c.skills.length}
+            version={c.version}
+            branch={c.sourceBranch}
+            built={c.generatedAt}
+            labels={m.stats}
+          />
+
           <div className="hero-actions">
             <a
               className="btn btn-primary"
@@ -169,7 +220,7 @@ export default function App() {
             >
               {m.hero.repoBtn}
             </a>
-            <a className="btn btn-ghost" href="#install">
+            <a className="btn btn-ghost" href={`#${SECTION_INSTALL}`}>
               {m.hero.installBtn}
             </a>
             <button
@@ -180,36 +231,59 @@ export default function App() {
               {m.hero.copyCurlBtn}
             </button>
           </div>
-          <div className="meta-bar">
-            <span>
-              {m.meta.repo}{" "}
-              <a href={c.repositoryUrl}>
-                <code>{c.repository}</code>
-              </a>
-            </span>
-            <span>
-              {m.meta.branch} <code>{c.sourceBranch}</code>
-            </span>
-            <span>
-              {m.meta.built} <code>{c.generatedAt}</code>
-            </span>
-            {c.version ? (
-              <span>
-                {m.meta.manifest} <code>v{c.version}</code>
-              </span>
-            ) : null}
-            <span>
-              {m.meta.pages}{" "}
-              <a href={c.pagesUrl}>
-                <code>{c.repoName}</code>
-              </a>
-            </span>
-          </div>
         </div>
       </header>
+
       <main className="page-main">
         <div className="wrap">
-          <section id="overview" aria-labelledby="ov-h">
+          <section id={SECTION_SKILLS} aria-labelledby="sk-h">
+            <h2 id="sk-h">{m.skills.title}</h2>
+            <p className="section-meta">{resultLabel}</p>
+            {filtered.length === 0 ? (
+              <p className="catalog-empty">{m.skills.empty}</p>
+            ) : (
+              <div className="skill-grid">
+                {filtered.map((s) => (
+                  <article
+                    key={s.folder}
+                    className="card"
+                    id={`skill-${s.id.replace(/\s+/g, "-")}`}
+                  >
+                    <h3>{s.id}</h3>
+                    <p className="path-hint">{s.path}</p>
+                    <p className="desc">{s.description}</p>
+                    <div className="links">
+                      <a
+                        href={s.folderUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {m.skills.source}
+                        <IconExternal />
+                      </a>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
+          </section>
+
+          <section id={SECTION_PLUGINS} aria-labelledby="pl-h">
+            <h2 id="pl-h">{m.plugins.title}</h2>
+            <PluginGrid
+              plugins={c.plugins}
+              skillsLabel={m.plugins.skillsUnit}
+              browseLabel={m.plugins.browse}
+              onBrowse={applyFilterAndScroll}
+            />
+          </section>
+
+          <section id={SECTION_INSTALL} aria-labelledby="in-h">
+            <h2 id="in-h">{m.install.title}</h2>
+            <InstallTabs catalog={c} onCopy={(t) => void copyText(t)} />
+          </section>
+
+          <section id={SECTION_OVERVIEW} aria-labelledby="ov-h">
             <h2 id="ov-h">{m.overview.title}</h2>
             <div className="panel panel-highlight">
               <p className="note tight">
@@ -236,76 +310,7 @@ export default function App() {
             </div>
           </section>
 
-          <section id="install" aria-labelledby="in-h">
-            <h2 id="in-h">{m.install.title}</h2>
-            <InstallTabs catalog={c} onCopy={(t) => void copyText(t)} />
-          </section>
-
-          <section id="plugins" aria-labelledby="pl-h">
-            <h2 id="pl-h">{m.plugins.title}</h2>
-            <div className="data-table-wrap">
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th>{m.plugins.colPlugin}</th>
-                    <th>{m.plugins.colDesc}</th>
-                    <th>{m.plugins.colSkills}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {c.plugins.map((p) => (
-                    <tr key={p.name}>
-                      <td>
-                        <code>{p.name}</code>
-                      </td>
-                      <td>{p.description}</td>
-                      <td>{p.skillCount}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <section id="skills" aria-labelledby="sk-h">
-            <h2 id="sk-h">{m.skills.title}</h2>
-            <div className="skill-toolbar">
-              <label htmlFor="skill-filter">{m.skills.filter}</label>
-              <input
-                type="search"
-                id="skill-filter"
-                name="q"
-                placeholder={m.skills.placeholder}
-                autoComplete="off"
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-              />
-            </div>
-            <div className="skill-grid">
-              {filtered.map((s) => (
-                <article
-                  key={s.folder}
-                  className="card"
-                  id={`skill-${s.id.replace(/\s+/g, "-")}`}
-                >
-                  <h3>{s.id}</h3>
-                  <p className="path-hint">{s.path}</p>
-                  <p className="desc">{s.description}</p>
-                  <div className="links">
-                    <a
-                      href={s.folderUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {m.skills.source}
-                    </a>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-
-          <section id="quality" aria-labelledby="qa-h">
+          <section id={SECTION_QUALITY} aria-labelledby="qa-h">
             <h2 id="qa-h">{m.quality.title}</h2>
             <div className="panel">
               <p className="note">{m.quality.note}</p>
@@ -327,13 +332,14 @@ pnpm check`}
           </section>
         </div>
       </main>
+
       <footer className="site">
         <div className="wrap">
           <p>
             <a href={c.repositoryUrl}>{c.repository}</a> ·{" "}
             <a href={c.pagesUrl}>GitHub Pages</a> · {m.footer.branch}{" "}
             <code>{c.sourceBranch}</code> ·{" "}
-            <a href="#overview">{m.footer.backTop}</a>
+            <a href={`#${SECTION_SKILLS}`}>{m.footer.backTop}</a>
           </p>
         </div>
       </footer>

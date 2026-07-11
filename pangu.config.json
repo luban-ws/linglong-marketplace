@@ -1,0 +1,12 @@
+{
+  "projectName": "linglong-marketplace",
+  "packageManager": "pnpm",
+  "demos": [
+    {
+      "name": "Site",
+      "value": "site",
+      "description": "Marketplace catalog site (dev :5181)",
+      "package": "@linglongjs/site"
+    }
+  ]
+}

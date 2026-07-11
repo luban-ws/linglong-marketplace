@@ -14,7 +14,7 @@ Standard **Claude Code plugin marketplace** (`linglong-marketplace`) with domain
 |----------|------|
 | [`packages/skill-validator`](packages/skill-validator) | **`ll-skills`** — validate skills (public npm) |
 | [`packages/marketplace`](packages/marketplace) | **`ll-catalog`** — export `catalog.json` for browse sites |
-| [`site`](site) | Vite intro site → GitHub Pages |
+| [`apps/site`](apps/site) | Vite intro site → GitHub Pages |
 | [`plugins/`](plugins) | Plugin packages + `SKILL.md` files |
 
 See [packages/README.md](packages/README.md) for the toolchain overview.
@@ -44,10 +44,10 @@ curl -fsSL https://raw.githubusercontent.com/systembugtj/linglong-marketplace/ma
 
 ```bash
 pnpm skills      # ll-skills — validate marketplace + SKILL.md
-pnpm catalog     # ll-catalog — write site/public/catalog.json
+pnpm catalog     # ll-catalog — write apps/site/public/catalog.json
 pnpm check       # all packages: validate + test
 pnpm dev         # catalog + Vite dev server
-pnpm build       # production site → site/dist
+pnpm build       # production site → apps/site/dist
 ```
 
 Any marketplace repo (npm):
@@ -68,7 +68,7 @@ install.sh
 packages/                   # @linglongjs CLIs + libraries
   skill-validator/          # ll-skills
   marketplace/              # ll-catalog (@linglongjs/marketplace-build)
-site/                       # GitHub Pages app
+apps/site/                  # GitHub Pages app
 plugins/                    # marketplace content
 ```
 

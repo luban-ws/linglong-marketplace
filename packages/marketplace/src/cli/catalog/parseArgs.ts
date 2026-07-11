@@ -67,12 +67,12 @@ Options:
   -h, --help                    show help
   -V, --version                 show version
   -p, --path <dir>              marketplace root
-  -o, --out <dir>               output directory (default: site/public or public/)
+  -o, --out <dir>               output directory (default: apps/site/public or public/)
 
 Examples:
   pnpm catalog
   ll-catalog
-  ll-catalog -o ./site/public
+  ll-catalog -o ./apps/site/public
   npx ${PACKAGE_NAME}
 `;
 }

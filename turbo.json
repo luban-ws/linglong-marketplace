@@ -7,7 +7,7 @@
     },
     "export-catalog": {
       "dependsOn": ["^build"],
-      "outputs": ["../../site/public/catalog.json", "../../site/public/manifest.json"]
+      "outputs": ["../../apps/site/public/catalog.json", "../../apps/site/public/manifest.json"]
     },
     "validate": {
       "dependsOn": ["^build"]

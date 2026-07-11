@@ -11,7 +11,7 @@ From the repo root:
 
 ```bash
 pnpm skills      # ll-skills — validate this marketplace
-pnpm catalog     # ll-catalog — write site/public/catalog.json
+pnpm catalog     # ll-catalog — write apps/site/public/catalog.json
 pnpm check       # validate + test all packages
 ```
 

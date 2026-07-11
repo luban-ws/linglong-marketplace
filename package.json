@@ -9,10 +9,13 @@
     "check": "turbo run check",
     "skills": "pnpm --filter @linglongjs/skill-validator run skills",
     "catalog": "pnpm --filter @linglongjs/marketplace-build run export-catalog",
-    "dev": "pnpm --filter @linglongjs/site dev",
+    "dev": "pangu",
+    "release": "qingniao",
     "prepare": "husky"
   },
   "devDependencies": {
+    "@systembug/pangu": "^0.1.0",
+    "@systembug/qingniao": "^0.1.0",
     "husky": "^9.1.7",
     "turbo": "^2.5.4"
   }

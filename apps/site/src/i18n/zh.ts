@@ -8,10 +8,10 @@ export const zh: Messages = {
   navAria: "章节导航",
   installTabsAria: "安装方式",
   nav: {
-    overview: "概览",
-    install: "安装",
-    plugins: "插件",
     catalog: "目录",
+    plugins: "插件",
+    install: "安装",
+    overview: "概览",
     quality: "校验",
     github: "GitHub",
     menu: "菜单",
@@ -23,10 +23,21 @@ export const zh: Messages = {
   },
   hero: {
     lede:
-      "本页是 linglong-marketplace 的完整介绍：浏览插件与 skill、复制安装命令，或一键安装到 Claude Code。",
+      "浏览 Claude Code 插件与 skill：在下方搜索，复制安装命令，或一键安装到 Claude Code。",
+    searchLabel: "搜索 skill 与插件",
+    searchPlaceholder: "按名称、路径或描述搜索…",
+    searchHint: "结果会即时显示在下方目录区。",
+    popularLabel: "常用：",
     repoBtn: "GitHub 仓库",
     installBtn: "安装指南",
     copyCurlBtn: "复制 curl 安装",
+  },
+  stats: {
+    plugins: "插件",
+    skills: "Skill",
+    version: "Manifest",
+    branch: "分支",
+    built: "构建",
   },
   meta: {
     repo: "仓库",
@@ -88,12 +99,16 @@ export const zh: Messages = {
     colPlugin: "插件",
     colDesc: "说明",
     colSkills: "Skills",
+    skillsUnit: "个 skill",
+    browse: "浏览 skill",
   },
   skills: {
     title: "Skill 目录",
     filter: "筛选",
     placeholder: "按名称、路径、描述搜索…",
     source: "源码",
+    empty: "没有匹配的 skill。",
+    resultCount: "{count} 个 skill",
   },
   quality: {
     title: "本地校验",

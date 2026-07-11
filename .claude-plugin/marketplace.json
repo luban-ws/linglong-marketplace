@@ -46,6 +46,19 @@
       "category": "development",
       "source": "./plugins/macos-swiftpm-plugin",
       "strict": true
+    },
+    {
+      "name": "vite-github-pages-plugin",
+      "description": "Vite SPA deploy to GitHub Pages project sites — subpath base, wsx-router, wsx-press, i18n",
+      "version": "1.0.0",
+      "author": {
+        "name": "Linglong"
+      },
+      "license": "MIT",
+      "keywords": ["vite", "github-pages", "spa", "wsx", "deployment", "subpath"],
+      "category": "development",
+      "source": "./plugins/vite-github-pages-plugin",
+      "strict": true
     }
   ]
 }

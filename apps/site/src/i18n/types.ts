@@ -11,10 +11,10 @@ export type Messages = {
   navAria: string;
   installTabsAria: string;
   nav: {
-    overview: string;
-    install: string;
-    plugins: string;
     catalog: string;
+    plugins: string;
+    install: string;
+    overview: string;
     quality: string;
     github: string;
     menu: string;
@@ -26,9 +26,20 @@ export type Messages = {
   };
   hero: {
     lede: string;
+    searchLabel: string;
+    searchPlaceholder: string;
+    searchHint: string;
+    popularLabel: string;
     repoBtn: string;
     installBtn: string;
     copyCurlBtn: string;
+  };
+  stats: {
+    plugins: string;
+    skills: string;
+    version: string;
+    branch: string;
+    built: string;
   };
   meta: {
     repo: string;
@@ -83,12 +94,16 @@ export type Messages = {
     colPlugin: string;
     colDesc: string;
     colSkills: string;
+    skillsUnit: string;
+    browse: string;
   };
   skills: {
     title: string;
     filter: string;
     placeholder: string;
     source: string;
+    empty: string;
+    resultCount: string;
   };
   quality: {
     title: string;

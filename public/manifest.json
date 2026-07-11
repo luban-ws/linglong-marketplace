@@ -1,0 +1,52 @@
+{
+  "name": "linglong-marketplace",
+  "version": "1.1.0",
+  "description": "Personal Claude Code marketplace: Tauri monorepo, RFC and roadmap tracking, macOS SwiftPM .app packaging and deploy, approval-gated RFC workflow.",
+  "repository": "systembugtj/linglong-marketplace",
+  "sourceBranch": "main",
+  "generatedAt": "2026-07-11T23:37:43Z",
+  "skills": [
+    {
+      "name": "tauri-project",
+      "path": "plugins/tauri-plugin/skills/tauri-project",
+      "description": "Use this skill whenever you work in the xuanwu (玄武) Tauri monorepo—pnpm workspace only, apps/desktop Tauri plus Vite plus React, packages/ui exported as @xuanwu/ui, packages/config-* shared tool configs, tauri.conf.json and src-tauri Rust including PTY paths, pnpm dev versus pnpm --filter desktop dev, adding deps with pnpm add --filter desktop, or steering users away from npm. Also use for the three-column product layout (Sidebar file tree plus Git, TerminalArea with xterm, TaskPanel) and shared styling via CSS variables in packages/ui.",
+      "folderUrl": "https://github.com/systembugtj/linglong-marketplace/tree/main/plugins/tauri-plugin/skills/tauri-project",
+      "copyCommand": "cp -R plugins/tauri-plugin/skills/tauri-project ~/.claude/skills/tauri-project"
+    },
+    {
+      "name": "rfc-management",
+      "path": "plugins/rfc-plugin/skills/rfc-management",
+      "description": "Manage RFC files, .spec/ROADMAP.md, and .spec/TASK_TRACKING.md—create numbered RFCs under .spec/rfc/, update status, archive completed work, and keep exactly three sources in sync (no README indexes under .spec/). Use when adding RFCs, changing RFC status, syncing roadmap phases, updating task boards, or archiving to completed/rejected. For implementing an approved RFC in code, pair with rfc-workflow. Default paths for linglong-marketplace; discover alternate paths only in other repos.",
+      "folderUrl": "https://github.com/systembugtj/linglong-marketplace/tree/main/plugins/rfc-plugin/skills/rfc-management",
+      "copyCommand": "cp -R plugins/rfc-plugin/skills/rfc-management ~/.claude/skills/rfc-management"
+    },
+    {
+      "name": "rfc-workflow",
+      "path": "plugins/rfc-plugin/skills/rfc-workflow",
+      "description": "Implement or review work from an RFC spec—analyze the RFC under .spec/rfc/, present numbered options, get explicit approval, then execute in controlled steps. Use when the user says implement the RFC, according to RFC, or references .spec/rfc/NNNN-slug.md. After code ships, update .spec/ROADMAP.md and .spec/TASK_TRACKING.md per rfc-management. Do not skip approval gates. Pair with rfc-management when creating or archiving RFCs.",
+      "folderUrl": "https://github.com/systembugtj/linglong-marketplace/tree/main/plugins/rfc-plugin/skills/rfc-workflow",
+      "copyCommand": "cp -R plugins/rfc-plugin/skills/rfc-workflow ~/.claude/skills/rfc-workflow"
+    },
+    {
+      "name": "macos-swiftpm-app-deployer",
+      "path": "plugins/macos-swiftpm-plugin/skills/macos-swiftpm-app-deployer",
+      "description": "SwiftPM macOS .app deploy—release build, bundle, codesign, copy to /Applications or DEPLOY_DIR. Use when the user runs pnpm run deploy, turbo deploy, deploy.sh, or wants to avoid mistaking pnpm deploy for publish. Complements macos-swiftpm-cli-app packaging.",
+      "folderUrl": "https://github.com/systembugtj/linglong-marketplace/tree/main/plugins/macos-swiftpm-plugin/skills/macos-swiftpm-app-deployer",
+      "copyCommand": "cp -R plugins/macos-swiftpm-plugin/skills/macos-swiftpm-app-deployer ~/.claude/skills/macos-swiftpm-app-deployer"
+    },
+    {
+      "name": "macos-swiftpm-cli-app",
+      "path": "plugins/macos-swiftpm-plugin/skills/macos-swiftpm-cli-app",
+      "description": "Use this skill whenever you build or ship macOS utilities from Swift Package Manager without living in an Xcode project—MenuBarExtra or LSUIElement accessories, shell-assembled App.app bundles, scripts that copy release binaries into Contents/MacOS, Info.plist and CFBundleIconFile, AppIcon.icns, ad-hoc codesign, embedded __info_plist for running the Mach-O directly, URL schemes, pnpm or turbo hooks that run swift test then pack an app, CI that must emit a signed bundle, or debates about SPM versus Xcode for small Mac tools. Also use when fixing Finder icons, menu bar template assets, PkgInfo, xattr before signing, or multi-display layout where the focused window screen should drive geometry (not only the mouse screen).",
+      "folderUrl": "https://github.com/systembugtj/linglong-marketplace/tree/main/plugins/macos-swiftpm-plugin/skills/macos-swiftpm-cli-app",
+      "copyCommand": "cp -R plugins/macos-swiftpm-plugin/skills/macos-swiftpm-cli-app ~/.claude/skills/macos-swiftpm-cli-app"
+    },
+    {
+      "name": "vite-github-pages",
+      "path": "plugins/vite-github-pages-plugin/skills/vite-github-pages",
+      "description": "Deploy Vite SPAs to GitHub Pages project sites with correct subpath base (`/repo/`), History API routing, i18n asset URLs, and wsx-router/wsx-press fixes. Use when GitHub Pages 404s, links jump to domain root, locales fail to load, wsx-link navigates to `/packages` instead of `/repo/packages`, or when replacing fetch patches, hash redirects, or post-bundle string replace hacks.",
+      "folderUrl": "https://github.com/systembugtj/linglong-marketplace/tree/main/plugins/vite-github-pages-plugin/skills/vite-github-pages",
+      "copyCommand": "cp -R plugins/vite-github-pages-plugin/skills/vite-github-pages ~/.claude/skills/vite-github-pages"
+    }
+  ]
+}

@@ -8,10 +8,10 @@ export const en: Messages = {
   navAria: "Section navigation",
   installTabsAria: "Install methods",
   nav: {
-    overview: "Overview",
-    install: "Install",
-    plugins: "Plugins",
     catalog: "Catalog",
+    plugins: "Plugins",
+    install: "Install",
+    overview: "Overview",
     quality: "Validate",
     github: "GitHub",
     menu: "Menu",
@@ -23,10 +23,21 @@ export const en: Messages = {
   },
   hero: {
     lede:
-      "Full intro to linglong-marketplace: browse plugins and skills, copy install commands, or one-shot install into Claude Code.",
+      "Browse plugins and skills for Claude Code — search below, copy install commands, or one-shot install.",
+    searchLabel: "Search skills & plugins",
+    searchPlaceholder: "Search by name, path, or description…",
+    searchHint: "Results update instantly in the catalog section.",
+    popularLabel: "Popular:",
     repoBtn: "GitHub repo",
     installBtn: "Install guide",
     copyCurlBtn: "Copy curl install",
+  },
+  stats: {
+    plugins: "Plugins",
+    skills: "Skills",
+    version: "Manifest",
+    branch: "Branch",
+    built: "Built",
   },
   meta: {
     repo: "Repo",
@@ -88,12 +99,16 @@ export const en: Messages = {
     colPlugin: "Plugin",
     colDesc: "Description",
     colSkills: "Skills",
+    skillsUnit: "skills",
+    browse: "Browse skills",
   },
   skills: {
     title: "Skill catalog",
     filter: "Filter",
     placeholder: "Search by name, path, or description…",
     source: "Source",
+    empty: "No skills match your search.",
+    resultCount: "{count} skills",
   },
   quality: {
     title: "Local validation",

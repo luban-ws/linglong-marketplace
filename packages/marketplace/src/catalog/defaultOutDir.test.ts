@@ -4,8 +4,8 @@ import { defaultCatalogOutDir } from "./defaultOutDir.js";
 import { repoRoot } from "../repoRoot.js";
 
 describe("defaultCatalogOutDir", () => {
-  it("uses site/public in this monorepo", () => {
+  it("uses apps/site/public in this monorepo", () => {
     const root = repoRoot();
-    expect(defaultCatalogOutDir(root)).toMatch(/site\/public$/);
+    expect(defaultCatalogOutDir(root)).toMatch(/apps\/site\/public$/);
   });
 });
