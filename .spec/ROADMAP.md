@@ -12,7 +12,7 @@ RFC files: `.spec/rfc/NNNN-kebab-slug.md` — numbering, status, and sections be
 | 0001 | [@linglongjs packages toolchain](rfc/0001-linglongjs-toolchain.md) | Implemented |
 | 0002 | [Standard Claude Code plugin marketplace](rfc/0002-standard-plugin-marketplace.md) | Implemented |
 | 0003 | [GitHub Pages intro site and install flow](rfc/0003-github-pages-intro-site.md) | Implemented |
-| 0004 | [Tauri Dev/Prod Build Isolation & Updater Signing](rfc/0004-tauri-dev-prod-isolation.md) | Implemented |
+| 0004 | [Tauri Dev/Prod Build Isolation & Updater Signing Modular Skills](rfc/0004-tauri-dev-prod-isolation.md) | Under Review |
 
 ## Phase 1 — Marketplace foundation (done)
 

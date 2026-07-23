@@ -1,29 +1,31 @@
-# RFC 0004: Tauri Dev/Prod Build Isolation & Updater Signing Guidelines
+# RFC 0004: Tauri Dev/Prod Build Isolation & Updater Signing Modular Skills
 
-**Status:** Implemented  
+**Status:** Under Review  
 **Created:** 2026-07-22
 
 ## Summary
 
-Add a dedicated `tauri-dev-prod-isolation` skill under `plugins/tauri-dev-plugin/` and rename `tauri-plugin` to `tauri-dev-plugin` to serve as a comprehensive development toolkit for Tauri v2 monorepo setups.
+Rename `tauri-plugin` to `tauri-dev-plugin` and split complex Tauri v2 runtime operations into two modular, highly-focused skills: `tauri-dev-prod-isolation` and `tauri-updater-signing`.
 
 ## Motivation
 
-- Tauri v2 applications sharing `tauri.conf.json`'s `identifier` field across dev and prod environments cause subtle data corruption (shared `app_data_dir()`), unexpected single-instance socket collisions, and unintended background updater polls to production feeds during dev runs.
-- Key generation using `tauri signer generate` in non-interactive CI environments fails silently or errors out when passwordless keys are used.
-- Need empirical, production-verified guidelines for Tauri v2 dev/prod channel separation (`--config` overlays, updater endpoint overrides, and CI signing key practices).
+- **Dev/Prod Coexistence Risk**: Tauri v2 applications sharing `tauri.conf.json`'s `identifier` field across dev and prod environments cause data corruption (shared `app_data_dir()`), single-instance socket collisions, and unintended background updater calls during local dev.
+- **CI Signing Failures**: Key generation with `tauri signer generate` in non-interactive CI environments fails or hangs when passwordless keys are used.
+- **Single-Responsibility Skill Design**: Combining local dev/prod runtime isolation with release-time updater signing into one large skill document dilutes description precision, increasing prompt token overhead and leading to inaccurate agent skill triggers.
 
 ## Proposal
 
-1. **Rename & Re-structure Plugin**:
+1. **Plugin Restructuring & Rename**:
    - Rename `plugins/tauri-plugin` to `plugins/tauri-dev-plugin`.
-   - Add skill `tauri-dev-prod-isolation` containing core ground truths on Tauri runtime identifier scoping, config overlay patterns (`tauri.dev.conf.json`), non-interactive updater signing setups, and `createUpdaterArtifacts` CI assertions.
-2. **Marketplace & Documentation Synchronization**:
-   - Update `.claude-plugin/marketplace.json` to reference `tauri-dev-plugin` v1.1.0.
-   - Update `README.md` and repo documentation to list `tauri-dev-plugin` and its skills (`tauri-project`, `tauri-dev-prod-isolation`).
+2. **Modular Skill Breakdown**:
+   - **`tauri-dev-prod-isolation`**: Focuses strictly on runtime identifier isolation, single-instance socket scoping, and `--config tauri.dev.conf.json` overlay patterns.
+   - **`tauri-updater-signing`**: Focuses strictly on `tauri-plugin-updater` configuration, non-interactive CI signing key password fixes, and `createUpdaterArtifacts` build assertions.
+3. **Marketplace & Documentation Synchronization**:
+   - Update `.claude-plugin/marketplace.json` to register both skills under `tauri-dev-plugin`.
+   - Update `README.md` and catalog tooling to document the modular skill breakdown.
 
 ## Implementation notes
 
-- Created [plugins/tauri-dev-plugin/skills/tauri-dev-prod-isolation/SKILL.md](file:///Volumes/ORICO/ws/prj/systembug/linglong-marketplace/plugins/tauri-dev-plugin/skills/tauri-dev-prod-isolation/SKILL.md).
-- Updated manifest entries in `.claude-plugin/marketplace.json`.
-- Enforced full validation via `@linglongjs/skill-validator` (`pnpm run check`).
+- Created skill directory `plugins/tauri-dev-plugin/skills/tauri-dev-prod-isolation/`.
+- Proposed addition of skill directory `plugins/tauri-dev-plugin/skills/tauri-updater-signing/`.
+- Validated manifest rules via `@linglongjs/skill-validator`.
