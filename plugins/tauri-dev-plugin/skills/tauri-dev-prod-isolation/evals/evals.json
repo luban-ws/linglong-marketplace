@@ -1,0 +1,29 @@
+{
+  "skill_name": "tauri-dev-prod-isolation",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I want to run my Tauri app's dev build and the installed prod version at the same time on my Mac without them corrupting each other's data. What's the mechanism and what do I need to change?",
+      "expected_output": "Give both builds a different `identifier` in tauri.conf.json via a `tauri.dev.conf.json` --config overlay; identifier drives app_data_dir() and tauri-plugin-single-instance's lock scope (verified per-platform: macOS socket path, Windows mutex name, Linux D-Bus name), so different identifiers isolate both automatically with no main.rs changes.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "My dev Tauri build keeps prompting to install an update meant for the production release. Why, and how do I stop it?",
+      "expected_output": "tauri-plugin-updater does not read `identifier` — it's a separate subsystem. If updater is registered unconditionally in main.rs with a periodic check task, dev inherits the prod endpoints unless the dev config overlay explicitly sets plugins.updater.endpoints to an empty array.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "`tauri signer generate` for my CI signing key works locally but fails in GitHub Actions with 'incorrect updater private key password: Device not configured (os error 6)'. What's going on?",
+      "expected_output": "Known tauri-cli bug: passwordless keys (via --ci, -p \"\", or unset password env var) fail to sign in non-interactive terminals because the CLI still attempts an interactive password prompt with no TTY. Fix: generate the key with a real non-empty password and store both key and password as CI secrets.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "My Tauri release CI is green and GitHub Releases get created, but the auto-updater never finds a new version. What's the most likely silent failure?",
+      "expected_output": "bundle.createUpdaterArtifacts is probably false (the default) in tauri.conf.json — build succeeds and installers upload fine, but no signed .sig/latest.json is produced, so the updater endpoint 404s even though every other config (pubkey, endpoints, signing secrets) is correct.",
+      "files": []
+    }
+  ]
+}

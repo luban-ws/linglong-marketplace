@@ -4,9 +4,10 @@ Standard **Claude Code plugin marketplace** (`linglong-marketplace`) with domain
 
 | Plugin | Skills |
 |--------|--------|
-| `tauri-plugin` | `tauri-project` |
+| `tauri-dev-plugin` | `tauri-project`, `tauri-dev-prod-isolation` |
 | `rfc-plugin` | `rfc-management`, `rfc-workflow` |
 | `macos-swiftpm-plugin` | `macos-swiftpm-cli-app`, `macos-swiftpm-app-deployer` |
+| `vite-github-pages-plugin` | `vite-github-pages` |
 
 **pnpm + Turbo monorepo** — `packages/` holds **@linglongjs build tools**; `plugins/` holds marketplace content.
 
@@ -35,9 +36,10 @@ curl -fsSL https://raw.githubusercontent.com/systembugtj/linglong-marketplace/ma
 
 ```text
 /plugin marketplace add https://github.com/systembugtj/linglong-marketplace.git
-/plugin install tauri-plugin@linglong-marketplace
+/plugin install tauri-dev-plugin@linglong-marketplace
 /plugin install rfc-plugin@linglong-marketplace
 /plugin install macos-swiftpm-plugin@linglong-marketplace
+/plugin install vite-github-pages-plugin@linglong-marketplace
 ```
 
 ## Build tools (from repo root)
