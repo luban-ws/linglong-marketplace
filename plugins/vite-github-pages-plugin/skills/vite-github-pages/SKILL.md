@@ -2,10 +2,11 @@
 name: vite-github-pages
 description: >-
   Deploy Vite SPAs to GitHub Pages project sites with correct subpath base (`/repo/`),
-  History API routing, i18n asset URLs, and wsx-router/wsx-press fixes.
+  History API routing, i18n asset URLs, and wsx-press subpath support via configurePressBase.
   Use when GitHub Pages 404s, links jump to domain root, locales fail to load,
-  wsx-link navigates to `/packages` instead of `/repo/packages`, or when replacing
-  fetch patches, hash redirects, or post-bundle string replace hacks.
+  wsx-link navigates to `/packages` instead of `/repo/packages`, wsx-press fetches
+  `/.wsx-press/` instead of `/repo/.wsx-press/`, or when replacing fetch patches,
+  hash redirects, post-bundle string replace, or wsxPressBasePlugin hacks.
 ---
 
 # Vite + GitHub Pages (subpath SPA)
@@ -53,7 +54,7 @@ CI must set `GITHUB_PAGES: 'true'` on the pages build step.
 
 `@wsxjs/wsx-router` uses **History API** on `window.location.pathname`. `mode="hash"` on `<wsx-router>` is ignored.
 
-Every `wsx-link` `to` and `wsx-view` `path` must go through a helper:
+**wsx-router has no base awareness** — the app must prefix every `wsx-link` `to` and `wsx-view` `route`:
 
 ```typescript
 export const SITE_BASE = import.meta.env.BASE_URL;
@@ -72,6 +73,12 @@ Call `normalizeSitePathname()` once at boot so `/repo` redirects to `/repo/`.
 
 **Never** hardcode `/packages` or `/docs/...` in templates when deployed under a subpath.
 
+Example router registration:
+
+```tsx
+<wsx-view route={sitePath("/docs/*")} component="doc-section" />
+```
+
 ## i18n / static assets
 
 Prefix fetch paths with `SITE_BASE`:
@@ -82,17 +89,85 @@ loadPath: `${SITE_BASE}locales/{{lng}}/{{ns}}.json`
 
 Same rule for any `fetch('/...')` in app code.
 
-## wsx-press subpath fix
+## wsx-press subpath (>= 0.2.0, RFC 0067)
 
-`@wsxjs/wsx-press/client` hardcodes root-relative fetches (`"/.wsx-press/"`, `` `/docs/` ``). Fix at **compile time** with a Vite `transform` plugin on the client bundle only — not post-build string replace on `dist/`.
+`@wsxjs/wsx-press` ships runtime base via `configurePressBase`. **Do not** use a Vite transform plugin or post-build string replace.
 
-Rewrite:
+Root deploy (`base: "/"`): `configurePressBase` is optional (defaults to `/`).
 
-- `"/.wsx-press/` → `"${base}/.wsx-press/`
-- `` `/docs/` `` → `` `${base}/docs/` ``
-- Doc route parsing: `startsWith("/docs/")` → `includes('/docs/')` + `split('/docs/')[1]`
+### 1. Create `src/press-init.ts`
 
-No-op when `base === '/'`.
+Import from **`@wsxjs/wsx-press/client/paths`** — not the full client entry — so components are not registered before base is set:
+
+```typescript
+import { configurePressBase } from "@wsxjs/wsx-press/client/paths";
+
+configurePressBase(import.meta.env.BASE_URL);
+```
+
+`@wsxjs/wsx-press/client` also re-exports paths, but the `/paths` subpath avoids early component side effects.
+
+### 2. Import first in `main.ts`
+
+```typescript
+import "./press-init";              // MUST run before wsx-press client
+import "@wsxjs/wsx-press/client";  // or via App.wsx that imports client
+// …then mount app
+```
+
+`configurePressBase` must run **before** doc components connect or fetch.
+
+### 3. Vite config — standard node plugin only
+
+```typescript
+import { wsxPress } from "@wsxjs/wsx-press/node";
+
+export default defineConfig({
+  base: siteBase,   // must match configurePressBase value
+  plugins: [
+    wsxPress({ docsRoot, outputDir: ".wsx-press" }),
+    copyWsxPressPlugin(),  // cp .wsx-press → dist/.wsx-press on build
+    copy404Plugin(),
+  ],
+});
+```
+
+**Remove** `wsxPressBasePlugin` if present — obsolete since wsx-press 0.2.0.
+
+### Dual base config (app + wsx-press)
+
+Both layers read the same value:
+
+| Layer | Config | Scope |
+|-------|--------|-------|
+| App (`sitePaths.ts`) | `import.meta.env.BASE_URL` | wsx-router routes, i18n, static assets |
+| wsx-press (`configurePressBase`) | same `BASE_URL` | doc fetches, sidebar nav, search |
+
+wsx-press does **not** configure wsx-router. App keeps `sitePath()` for router; wsx-press uses `pressSitePath()` internally.
+
+### Public API (`@wsxjs/wsx-press/client/paths`)
+
+Official types: `@wsxjs/wsx-press/client/paths` → `dist/client/paths.d.ts`.
+
+| Export | Purpose |
+|--------|---------|
+| `configurePressBase(base)` | Set base once at boot |
+| `getPressBase()` | Current base (default `/`) |
+| `resetPressBase()` | Reset to default (tests) |
+| `pressAsset("docs-meta.json")` | → `/repo/.wsx-press/docs-meta.json` |
+| `pressDocMarkdownUrl("guide/intro")` | → `/repo/docs/guide/intro.md` |
+| `pressSitePath("/docs/foo")` | → `/repo/docs/foo` |
+| `stripPressBase(pathname)` | Strip base → app route |
+| `getDocsRelativePath(pathname)` | Strip base → doc relative path or null |
+| `DOCS_ROUTE_PREFIX` | `"/docs"` (app-internal routes) |
+| `normalizeSiteBase(base)` | Normalize Vite-style base string |
+
+**metadata.route** in generated JSON stays app-internal (`/docs/guide/intro`, no base prefix). Base is applied only at fetch / History API time.
+
+### Dev vs prod
+
+- **Prod**: copy `.wsx-press/` → `dist/.wsx-press/`; client fetches via `pressAsset()`.
+- **Dev**: Vite strips `config.base` before middleware; node plugin mounts at `/.wsx-press`. Client `pressAsset()` still prefixes base in fetch URLs.
 
 ## SPA 404 fallback
 
@@ -118,10 +193,13 @@ Redirect scripts that strip path segments break deep links.
 After `pnpm build:pages`:
 
 - [ ] Bundle defines `BASE_URL` as `/repo/`
-- [ ] `wsx-link` resolves to `/repo/packages`, not `/packages`
+- [ ] `wsx-link` / `wsx-view` resolve to `/repo/...`, not `/...`
 - [ ] i18n requests `/repo/locales/...`
-- [ ] wsx-press fetches `/repo/.wsx-press/...`
+- [ ] wsx-press fetches `/repo/.wsx-press/docs-meta.json`
+- [ ] Doc markdown loads from `/repo/docs/.../*.md`
 - [ ] `404.html` has no `location.replace` hack
+- [ ] No `wsxPressBasePlugin` in `vite.config.ts`
+- [ ] `press-init` imported before `@wsxjs/wsx-press/client`
 - [ ] `pnpm preview:pages` — nav + refresh on deep routes work
 
 ## Do not use
@@ -129,10 +207,17 @@ After `pnpm build:pages`:
 | Hack | Why it fails |
 |------|----------------|
 | Global `fetch` patch | Double-prefixes some URLs; misses others |
-| Post-bundle `dist` string replace | Corrupts `wsx-link` attrs inconsistently |
+| Post-bundle `dist` string replace | Corrupts attrs inconsistently; unmaintainable |
+| `wsxPressBasePlugin` Vite transform | Obsolete since wsx-press 0.2.0; patches consumer not library |
+| Relying on wsx-press alone for router base | wsx-router is out of scope; app must use `sitePath()` |
 | Hash routing fallback + 404 redirect | Strips deep paths; fights History API |
 | `mode="hash"` on wsx-router | Ignored by wsx-router |
 
 ## Reference
 
-Battle-tested in **gopdfjs** `apps/site` (`72c8f88`). See [references/gopdfjs-example.md](references/gopdfjs-example.md) for file map.
+- **Package docs**: `@wsxjs/wsx-press` README § "Configure site base"
+- **RFC**: wsxjs `.spec/rfc/0067-wsx-press-configurable-site-base.md`
+- **Canonical site**: productivity `apps/site`
+- **Legacy**: gopdfjs used `wsxPressBasePlugin` — migrate on bump to wsx-press >= 0.2.0
+
+See [references/example-sites.md](references/example-sites.md) for file map.

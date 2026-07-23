@@ -1,0 +1,10 @@
+{
+  "name": "tauri-dev-plugin",
+  "version": "1.1.0",
+  "description": "General Tauri v2 development toolkit — dev/prod build isolation, updater signing/config, plus xuanwu monorepo (pnpm, apps/desktop, @xuanwu/ui) project-specific conventions",
+  "author": {
+    "name": "Linglong"
+  },
+  "license": "MIT",
+  "keywords": ["tauri", "desktop", "updater", "dev-prod-isolation", "pnpm", "monorepo"]
+}

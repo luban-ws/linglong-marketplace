@@ -1,7 +1,7 @@
 {
   "name": "vite-github-pages-plugin",
-  "version": "1.0.0",
-  "description": "Vite SPA deploy to GitHub Pages project sites — subpath base, wsx-router, wsx-press, i18n",
+  "version": "1.0.1",
+  "description": "Vite SPA deploy to GitHub Pages project sites — subpath base, wsx-router, wsx-press 0.2.0, i18n",
   "author": {
     "name": "Linglong"
   },

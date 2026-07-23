@@ -18,6 +18,12 @@
       "prompt": "Deep link refresh on GitHub Pages project site 404s. Current 404.html has a redirect script stripping the path.",
       "expected_output": "Replace redirect with plain copy of index.html; History API SPA fallback; ensure vite base is /repo/.",
       "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Our wsx-press 0.2.0 docs break under /my-repo/. We use a custom Vite transform plugin to rewrite /.wsx-press and /docs paths. What is the supported fix?",
+      "expected_output": "Remove wsxPressBasePlugin; import configurePressBase from @wsxjs/wsx-press/client/paths in a side-effect init module; call it with import.meta.env.BASE_URL before importing or mounting wsx-press components; keep sitePath() for wsx-router routes.",
+      "files": []
     }
   ]
 }
