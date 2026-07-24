@@ -89,3 +89,5 @@ Store the private key content in `TAURI_SIGNING_PRIVATE_KEY` (CI secret) and the
 5. For updater-enabled apps: explicitly zero `plugins.updater.endpoints` in the dev overlay, and verify `bundle.createUpdaterArtifacts: true` is set in the base config, not assumed.
 6. When generating signing keys for CI, use a real password from the start — don't discover the passwordless-key CI bug the hard way.
 7. Document the "existing local dev data won't migrate when identifier changes" gotcha loudly (PR description, not just a Risks section nobody reads) — every existing contributor's dev environment resets to empty on first pull of an identifier change.
+
+**See also**: `tauri-theme-management` for prod-only theming bugs (different subsystem, same "works in dev, breaks in `tauri build`" failure shape); `tauri-project` for pnpm monorepo conventions if this app lives in one.

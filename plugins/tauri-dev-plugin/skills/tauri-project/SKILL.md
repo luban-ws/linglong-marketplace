@@ -1,40 +1,41 @@
 ---
 name: tauri-project
-description: Use this skill whenever you work in the xuanwu (玄武) Tauri monorepo—pnpm workspace only, apps/desktop Tauri plus Vite plus React, packages/ui exported as @xuanwu/ui, packages/config-* shared tool configs, tauri.conf.json and src-tauri Rust including PTY paths, pnpm dev versus pnpm --filter desktop dev, adding deps with pnpm add --filter desktop, or steering users away from npm. Also use for the three-column product layout (Sidebar file tree plus Git, TerminalArea with xterm, TaskPanel) and shared styling via CSS variables in packages/ui.
+description: Use this skill whenever you work in a pnpm-workspace monorepo containing a Tauri v2 + Vite + React (or Vue) desktop app alongside shared packages (e.g. a shared UI package, shared lint/TypeScript config packages), when deciding pnpm dev vs a filtered per-app dev command, when adding deps with pnpm add --filter <app>, when steering users away from npm/yarn in a pnpm-only repo, or when locating tauri.conf.json and the src-tauri Rust entrypoint inside an app package.
 ---
 
-# Tauri project (xuanwu monorepo)
+# Tauri project (pnpm monorepo conventions)
 
-Keeps desktop and shared packages aligned with the repo’s **pnpm-only** contract and the documented app layout.
+Keeps a Tauri desktop app and its shared packages aligned with a **pnpm-only** monorepo contract. Adapt the placeholder names below (`<app>`, `@scope/ui`) to the actual workspace layout — inspect `pnpm-workspace.yaml` and root `package.json` first rather than assuming paths.
 
-## Monorepo layout
+## Monorepo layout (typical shape)
 
-- **`apps/desktop/`**: Main Tauri + React + Vite app; owns the three-column shell; hosts xterm.js and PTY-oriented Rust under `src-tauri/`.
-- **`packages/ui/`**: Shared React; published path **`@xuanwu/ui`** for the desktop app.
-- **`packages/config-*`**: Shared lint and TypeScript bases—extend these instead of forking one-off config per app.
+- **`apps/<app>/`**: Tauri + Vite frontend app; hosts `src-tauri/` for the Rust side.
+- **`packages/ui/`** (or similar): Shared component package, consumed via a workspace-scoped import (e.g. `@scope/ui`).
+- **`packages/config-*`**: Shared lint/TypeScript bases — extend these instead of forking one-off config per app.
+
+Confirm actual package names and paths in the repo before applying commands below; don't assume a specific scope or app name.
 
 ## Package manager
 
-- Root `package.json` pins `packageManager` and `preinstall` runs `npx only-allow pnpm`: treat **`pnpm`** as mandatory.
-- Run **`pnpm install`** from the **repository root**; do not run `npm install` / `npm ci` in the tree (including under `apps/desktop`).
-- The lockfile is **`pnpm-lock.yaml`**. Ignore or delete stray `package-lock.json` and reinstall from root if it appears.
+- If root `package.json` pins `packageManager` and/or `preinstall` runs `only-allow pnpm`, treat **`pnpm`** as mandatory for that repo.
+- Run **`pnpm install`** from the **repository root**; do not run `npm install` / `npm ci` inside individual app packages.
+- The lockfile is **`pnpm-lock.yaml`**. Ignore or delete a stray `package-lock.json` and reinstall from root if one appears.
 
 ## Common commands
 
-- Full dev graph (apps and packages): `pnpm dev`
-- Desktop app only: `pnpm --filter desktop dev`
-- Add a dependency to desktop: `pnpm add <pkg> --filter desktop`
-- Wire local UI package: `pnpm add @xuanwu/ui --filter desktop`
+- Full dev graph (all apps and packages): `pnpm dev`
+- Single app only: `pnpm --filter <app> dev`
+- Add a dependency to an app: `pnpm add <pkg> --filter <app>`
+- Wire a local shared package into an app: `pnpm add @scope/ui --filter <app>`
 
 ## Tauri touchpoints
 
-- App shell config: `apps/desktop/src-tauri/tauri.conf.json`
-- Rust entry and integrations (including PTY): `apps/desktop/src-tauri/src/main.rs` (adjust if the crate layout moves—keep paths relative to the actual crate root)
+- App shell config: `apps/<app>/src-tauri/tauri.conf.json`
+- Rust entry point: `apps/<app>/src-tauri/src/main.rs` (adjust to the actual crate root if the layout differs)
 
-## UI layout expectations
+## Shared UI conventions
 
-1. **Left**: `@xuanwu/ui` sidebar (file tree plus Git affordances).
-2. **Middle**: `@xuanwu/ui` terminal area (xterm.js plus AI log stream as designed).
-3. **Right**: `@xuanwu/ui` task panel (tasks plus primary input).
+- Prefer components and CSS variables/tokens from the shared UI package over ad hoc per-app styling, so multiple app surfaces stay visually consistent.
+- When a shared package changes, check which apps consume it (`pnpm -r ls` or workspace graph) before assuming a change is app-local.
 
-Prefer **CSS variables** and tokens defined in `packages/ui` so desktop and future surfaces stay visually consistent.
+**See also**: `tauri-dev-prod-isolation` for dev/prod build separation and updater config once the app itself needs those; `tauri-theme-management` for prod theming bugs.
