@@ -1,0 +1,29 @@
+{
+  "skill_name": "tauri-theme-management",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "My Tauri app's Settings dialog is dark but the main window (sidebar, splitter) stays light in production. Dev looks fine. What's the usual cause?",
+      "expected_output": "Theme CSS was loaded from a dev-only path like /src/themes at runtime; dist has no such route so theme.css 404s while partial theme.json vars still apply to some components. Fix: bundle theme.css with Vite ?raw and inject synchronously via a style element, not a runtime link to /src/themes or /assets.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Should I use Vite ?url imports and append a link tag for theme.css when the user switches themes in a Tauri app?",
+      "expected_output": "Prefer ?raw and synchronous style textContent injection instead of ?url plus link href — avoids async load races and Tauri WebView asset path issues; CSS lives in the JS bundle with no separate fetch.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Vitest says my THEME_STYLESHEETS map is fine but css strings are empty in tests. Production build works.",
+      "expected_output": "Vitest stubs CSS ?raw imports unless css: true is set in vitest.config.ts; enable it and assert strings contain real tokens like --color-tree-bg.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "We have THEME_BASE_PATH = '/src/themes' and applyTheme(id, themeDir). Is that OK for Tauri release builds?",
+      "expected_output": "No — /src/themes is a Vite dev-server mount, not present in dist; remove THEME_BASE_PATH and the themeDir parameter; bundle theme.css with ?raw per theme id.",
+      "files": []
+    }
+  ]
+}

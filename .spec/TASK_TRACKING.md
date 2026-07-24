@@ -11,6 +11,7 @@ Operational tasks linked to [RFCs](rfc/). Mark **Done** when merged to `main`.
 - [x] GitHub Pages site + `install.sh` curl flow (RFC 0003)
 - [x] `.spec/rfc` tree with ROADMAP + TASK_TRACKING only (no README dupes)
 - [x] Rename `tauri-plugin` to `tauri-dev-plugin` and add `tauri-dev-prod-isolation` skill (RFC 0004)
+- [x] Add `tauri-theme-management` skill to `tauri-dev-plugin` (Photasa RFC 0159 — Vite `?raw` prod theme CSS)
 
 ## To do
 
