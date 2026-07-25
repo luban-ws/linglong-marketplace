@@ -1,6 +1,6 @@
 ---
 name: tauri-project
-description: Use this skill whenever you work in a pnpm-workspace monorepo containing a Tauri v2 + Vite + React (or Vue) desktop app alongside shared packages (e.g. a shared UI package, shared lint/TypeScript config packages), when deciding pnpm dev vs a filtered per-app dev command, when adding deps with pnpm add --filter <app>, when steering users away from npm/yarn in a pnpm-only repo, or when locating tauri.conf.json and the src-tauri Rust entrypoint inside an app package.
+description: Use this skill whenever you work in a pnpm-workspace monorepo containing a Tauri v2 + Vite + React (or Vue) desktop app alongside shared packages (e.g. a shared UI package, shared lint/TypeScript config packages), when deciding pnpm dev vs a filtered per-app dev command, when adding deps with pnpm add --filter for a single app package, when steering users away from npm/yarn in a pnpm-only repo, or when locating tauri.conf.json and the src-tauri Rust entrypoint inside an app package.
 ---
 
 # Tauri project (pnpm monorepo conventions)
@@ -38,4 +38,4 @@ Confirm actual package names and paths in the repo before applying commands belo
 - Prefer components and CSS variables/tokens from the shared UI package over ad hoc per-app styling, so multiple app surfaces stay visually consistent.
 - When a shared package changes, check which apps consume it (`pnpm -r ls` or workspace graph) before assuming a change is app-local.
 
-**See also**: `tauri-dev-prod-isolation` for dev/prod build separation and updater config once the app itself needs those; `tauri-theme-management` for prod theming bugs.
+**See also**: `tauri-dev-prod-isolation` for dev/prod build separation and updater config once the app itself needs those; `tauri-theme-management` for prod theming bugs; `tauri-macos-keyboard` for F-keys / `global-shortcut` / missing File menu on macOS.

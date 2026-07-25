@@ -1,0 +1,29 @@
+{
+  "skill_name": "tauri-macos-keyboard",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "F7 and F8 work in our Playwright E2E against Vite mock but do nothing in the real Tauri app on a MacBook. We only registered global shortcuts for Code::F7 and Code::F8 in Rust. What's wrong?",
+      "expected_output": "MacBook default sends media keys (MediaRewind / MediaPlayPause), not F7/F8 scancodes; RegisterEventHotKey for Code::F7 alone misses media-key mode. Also add NSMenu accelerators on File menu items, emit menu-action to the frontend, and verify in tauri dev — Playwright mock does not reproduce macOS routing.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Our Tauri macOS menu bar shows the app name, Edit, View but no File menu. We built the menu with File as the first submenu. How do we fix it?",
+      "expected_output": "On macOS the first submenu merges into the application menu regardless of label; put an app submenu first (About/Hide/Quit), then a separate File submenu second. Use distinct item ids if duplicating file commands in the app menu (e.g. -app suffix).",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Should we rely on React keydown handlers inside the WebView for F7 new-folder on macOS?",
+      "expected_output": "No as the only path — bare F7 often never reaches WebView in media-key mode. Use NSMenu accelerators plus tauri-plugin-global-shortcut with both F7 and MediaRewind (and F8 / MediaPlayPause for delete); keep WebView keydown as supplementary for standard-function-key mode and other platforms.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "tauri-plugin-global-shortcut on_shortcut for MediaPlayPause registered but delete still doesn't fire on F8. Any macOS permission gotcha?",
+      "expected_output": "Media keys use CGEventTap in global-hotkey; macOS may require Accessibility permission for the app. Check Rust logs for per-shortcut registration failures; media tap creation can fail silently if accessibility is denied — standard F-key registration may still succeed while media keys do not.",
+      "files": []
+    }
+  ]
+}

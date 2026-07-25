@@ -4,7 +4,7 @@ Standard **Claude Code plugin marketplace** (`linglong-marketplace`) with domain
 
 | Plugin | Skills |
 |--------|--------|
-| `tauri-dev-plugin` | `tauri-project`, `tauri-dev-prod-isolation`, `tauri-theme-management` |
+| `tauri-dev-plugin` | `tauri-project`, `tauri-dev-prod-isolation`, `tauri-theme-management`, `tauri-macos-keyboard` |
 | `rfc-plugin` | `rfc-management`, `rfc-workflow` |
 | `macos-swiftpm-plugin` | `macos-swiftpm-cli-app`, `macos-swiftpm-app-deployer` |
 | `vite-github-pages-plugin` | `vite-github-pages` |
