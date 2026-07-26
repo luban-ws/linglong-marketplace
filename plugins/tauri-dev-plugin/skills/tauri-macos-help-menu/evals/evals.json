@@ -1,0 +1,29 @@
+{
+  "skill_name": "tauri-macos-help-menu",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Tauri 2 on macOS shows only Search under Help. Source code clearly defines Report Issue and Learn More, uses HELP_SUBMENU_ID and app.set_menu, and title/append workarounds failed. What should I inspect next?",
+      "expected_output": "Follow runtime evidence from frontend immediately before invoke, through Rust command entry, submenu items after build, and app.menu after set_menu. Static source data does not prove the initial menu IPC ran. Do not switch to Rust setup or AppKit surgery before locating the broken boundary.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Our macOS Help submenu custom items disappeared after resolving muda 0.17.1. Is 0.17.1 relevant, and how do I verify the fix?",
+      "expected_output": "muda 0.17.1 contains the Help registration regression fixed by PR #335; use 0.17.2 or newer and confirm the resolved graph with cargo tree -i muda, then rebuild and fully relaunch the real Tauri app.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Our localized Tauri menu comes from Vue. refreshSystemMenu is called after await loadThemes(), and Help sometimes contains only Search. Should we hardcode Help items in Rust setup?",
+      "expected_output": "No. Preserve dynamic/localized ownership. Start initial refreshSystemMenu before unrelated startup awaits so theme failure cannot prevent menu IPC; await it when it returns a promise, otherwise ensure its background request logs failures. Instrument frontend payload and Rust entry rather than hiding the missed invoke with a second static menu model.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Rust logs show custom Help IDs at command entry, after SubmenuBuilder build, and in app.menu after set_menu, but macOS still renders only Search. What now?",
+      "expected_output": "Boundary evidence has reached native installation intact, so now create a minimal Tauri/muda reproduction using HELP_SUBMENU_ID and one custom item, verify muda version, then investigate or report the AppKit/muda layer. Native workarounds are not justified before this point.",
+      "files": []
+    }
+  ]
+}

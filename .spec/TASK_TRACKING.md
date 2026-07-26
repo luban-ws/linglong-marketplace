@@ -12,6 +12,7 @@ Operational tasks linked to [RFCs](rfc/). Mark **Done** when merged to `main`.
 - [x] `.spec/rfc` tree with ROADMAP + TASK_TRACKING only (no README dupes)
 - [x] Rename `tauri-plugin` to `tauri-dev-plugin` and add `tauri-dev-prod-isolation` skill (RFC 0004)
 - [x] Add `tauri-theme-management` skill to `tauri-dev-plugin` (Photasa RFC 0159 — Vite `?raw` prod theme CSS)
+- [x] Add `tauri-macos-help-menu` skill to `tauri-dev-plugin` (Photasa RFC 0170/0171 — muda 0.17.2 and runtime menu IPC evidence)
 
 ## To do
 
