@@ -1,0 +1,4 @@
+interface:
+  display_name: "Velox Development"
+  short_description: "Build and debug Velox desktop apps correctly"
+  default_prompt: "Use $velox-development to diagnose and fix this Velox desktop app."

@@ -1,0 +1,29 @@
+{
+  "skill_name": "velox-development",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Our Velox React app has the correct PNG and runtime NSApplication icon assignment, but Dock still shows a generic exec icon during pnpm dev. What is wrong?",
+      "expected_output": "Trace pnpm dev to the launched artifact. A bare swift run executable is not a macOS app bundle and will show generic executable identity. Route dev/build through the official Velox CLI, build a real .app with bundle.icon, launch the .app, and verify Info.plist plus bundled .icns before claiming success.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Cleaning.app builds with Velox but crashes at launch because libvelox_runtime_wry_ffi.dylib is loaded from an absolute SwiftPM build path. Should I replace Velox bundling with a custom shell script?",
+      "expected_output": "No. Inspect pinned Velox source and otool output first. If current Velox still omits relocation, keep Velox as bundler and use a narrow JavaScript beforeBundleCommand adapter to stage the dylib, rewrite the load command to @executable_path/../Resources, declare bundle.resources, and let Velox perform final signing. Add no .sh wrapper.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "We want Cleaning.app in release and Cleaning Dev.app in debug. Current Velox config only has one root productName. Can an automation agent swap velox.json before each build?",
+      "expected_output": "Do not secretly swap canonical configuration. Verify the pinned config model and CLI. If no build-mode productName override exists, keep Cleaning.app in separate debug and release output directories or propose upstream support. Preserve stable bundle identity and avoid configuration races.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Velox build --bundle exits zero and unit tests pass. Can we mark macOS packaging complete?",
+      "expected_output": "No. Inspect Info.plist and resources, verify icon and assets, run otool -L for absolute paths, confirm every non-system dylib exists, verify codesign deeply and strictly, launch with open, confirm stable process and single-instance behavior, then visually confirm Dock name and icon.",
+      "files": []
+    }
+  ]
+}

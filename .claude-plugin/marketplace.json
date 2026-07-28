@@ -4,8 +4,8 @@
     "name": "Linglong"
   },
   "metadata": {
-    "description": "Personal Claude Code marketplace: Tauri monorepo, RFC and roadmap tracking, macOS SwiftPM .app packaging and deploy, approval-gated RFC workflow.",
-    "version": "1.1.0"
+    "description": "Personal Claude Code marketplace: Tauri and Velox desktop development, RFC and roadmap tracking, macOS SwiftPM .app packaging and deploy, approval-gated RFC workflow.",
+    "version": "1.2.0"
   },
   "plugins": [
     {
@@ -58,6 +58,19 @@
       "keywords": ["vite", "github-pages", "spa", "wsx", "deployment", "subpath"],
       "category": "development",
       "source": "./plugins/vite-github-pages-plugin",
+      "strict": true
+    },
+    {
+      "name": "velox-dev-plugin",
+      "description": "Velox desktop development — CLI-first pnpm workflows, macOS app icons, native dylib bundling, rpath, signing, single instance, and live runtime acceptance",
+      "version": "1.0.0",
+      "author": {
+        "name": "Linglong"
+      },
+      "license": "MIT",
+      "keywords": ["velox", "swift", "swiftpm", "macos", "desktop", "app-bundle", "dylib", "rpath", "codesign", "vite", "react", "pnpm"],
+      "category": "development",
+      "source": "./plugins/velox-dev-plugin",
       "strict": true
     }
   ]

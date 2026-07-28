@@ -8,6 +8,7 @@ Standard **Claude Code plugin marketplace** (`linglong-marketplace`) with domain
 | `rfc-plugin` | `rfc-management`, `rfc-workflow` |
 | `macos-swiftpm-plugin` | `macos-swiftpm-cli-app`, `macos-swiftpm-app-deployer` |
 | `vite-github-pages-plugin` | `vite-github-pages` |
+| `velox-dev-plugin` | `velox-development` |
 
 **pnpm + Turbo monorepo** — `packages/` holds **@linglongjs build tools**; `plugins/` holds marketplace content.
 
@@ -40,6 +41,7 @@ curl -fsSL https://raw.githubusercontent.com/systembugtj/linglong-marketplace/ma
 /plugin install rfc-plugin@linglong-marketplace
 /plugin install macos-swiftpm-plugin@linglong-marketplace
 /plugin install vite-github-pages-plugin@linglong-marketplace
+/plugin install velox-dev-plugin@linglong-marketplace
 ```
 
 ## Build tools (from repo root)

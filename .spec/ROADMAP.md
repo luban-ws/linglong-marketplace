@@ -13,6 +13,7 @@ RFC files: `.spec/rfc/NNNN-kebab-slug.md` — numbering, status, and sections be
 | 0002 | [Standard Claude Code plugin marketplace](rfc/0002-standard-plugin-marketplace.md) | Implemented |
 | 0003 | [GitHub Pages intro site and install flow](rfc/0003-github-pages-intro-site.md) | Implemented |
 | 0004 | [Tauri Dev/Prod Build Isolation & Updater Signing Modular Skills](rfc/0004-tauri-dev-prod-isolation.md) | Under Review |
+| 0005 | [Velox desktop development plugin](rfc/0005-velox-dev-plugin.md) | Implemented |
 
 ## Phase 1 — Marketplace foundation (done)
 
@@ -32,7 +33,7 @@ Deliverables: `site/`, `install.sh`, `ll-skills` / `ll-catalog`, README ↔ Page
 |------|-------|
 | Publish `@linglongjs/skill-validator` | npm |
 | Publish `@linglongjs/marketplace-build` | optional |
-| More domain plugins | templates for contributors |
+| More domain plugins | `velox-dev-plugin`; templates for contributors |
 
 ## RFC conventions
 

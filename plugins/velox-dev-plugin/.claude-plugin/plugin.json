@@ -1,0 +1,10 @@
+{
+  "name": "velox-dev-plugin",
+  "version": "1.0.0",
+  "description": "Velox desktop development — CLI-first pnpm workflows, macOS app icons, native dylib bundling, rpath, signing, single instance, and live runtime acceptance",
+  "author": {
+    "name": "Linglong"
+  },
+  "license": "MIT",
+  "keywords": ["velox", "swift", "swiftpm", "macos", "desktop", "app-bundle", "dylib", "rpath", "codesign", "vite", "react", "pnpm"]
+}
