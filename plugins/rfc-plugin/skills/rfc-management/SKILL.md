@@ -89,6 +89,7 @@ Never leave ROADMAP saying `Approved` while the RFC header says `Draft`.
 ## Playbook C — Complete (Implemented)
 
 1. Verify acceptance against RFC proposal (and `.spec/TASK_TRACKING.md`).
+   - **Umbrella RFCs**: For large design specs serving as an umbrella, the completion/closure criterion is that **all sub-RFCs covering the detailed work breakdown have been successfully opened and tracking has begun**. The umbrella RFC itself is moved to completed/archive at this point, without waiting for the physical coding of the sub-RFCs to finish.
 2. `git mv` RFC → `.spec/rfc/completed/NNNN-slug.md` (or repo’s archive path).
 3. `.spec/ROADMAP.md`: set status `Implemented`; keep index row or move to a “completed” subsection per house style.
 4. `.spec/TASK_TRACKING.md`: check off all related items; add PR/commit links if the team does that.
